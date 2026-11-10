@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Security Scan Results</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">🛡 SecureCheck</div>
+    <a href="/" class="back-link">← New Scan</a>
+</header>
+
+<main class="dashboard">
+
+    <div class="dashboard-heading">
+        <span class="tag">SCAN COMPLETED</span>
+        <h1>Security Analysis Dashboard</h1>
+        <p>Website: <strong>{{ result.url }}</strong></p>
+        <p>HTTP Status: {{ result.status_code }}</p>
+        <p>{{ result.https_status }}</p>
+    </div>
+
+    <div class="score-card">
+
+        <div class="score-circle"
+             style="--score: {{ result.score }}">
+
+            <div>
+                <strong>{{ result.score }}%</strong>
+                <span>Security Score</span>
+            </div>
+
+        </div>
+
+        <div class="score-info">
+            <h2>Website Security Overview</h2>
+
+            {% if result.score >= 80 %}
+                <span class="status-good">Good Header Coverage</span>
+            {% elif result.score >= 50 %}
+                <span class="status-medium">Moderate Header Coverage</span>
+            {% else %}
+                <span class="status-bad">Low Header Coverage</span>
+            {% endif %}
+
+            <p>
+                This score represents the percentage of checked
+                security headers detected. It is not a complete
+                security rating of the website.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <h3>Total Headers</h3>
+            <strong>{{ result.total }}</strong>
+        </div>
+
+        <div class="stat-card">
+            <h3>Present Headers</h3>
+            <strong class="green">{{ result.present }}</strong>
+        </div>
+
+        <div class="stat-card">
+            <h3>Missing Headers</h3>
+            <strong class="red">{{ result.missing }}</strong>
+        </div>
+
+    </div>
+
+    <section class="result-section">
+
+        <h2>Security Header Details</h2>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Security Header</th>
+                        <th>Status</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for item in result.headers %}
+
+                    <tr>
+
+                        <td>
+                            <strong>{{ item.name }}</strong>
+                            <small>{{ item.description }}</small>
+                        </td>
+
+                        <td>
+                            {% if item.status == "Present" %}
+                                <span class="badge-present">✓ Present</span>
+                            {% else %}
+                                <span class="badge-missing">✕ Missing</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="value-cell">
+                            {{ item.value }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <section class="recommendation-section">
+
+        <h2>🛡 Security Recommendations</h2>
+
+        {% if result.recommendations %}
+
+            {% for item in result.recommendations %}
+
+            <div class="recommendation-card">
+                <strong>⚠ {{ item.name }}</strong>
+                <p>{{ item.message }}</p>
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>All six checked security headers were detected.</p>
+
+        {% endif %}
+
+    </section>
+
+    <div class="download-section">
+
+        <h2>Download Security Report</h2>
+
+        <p>Download your website security scan results.</p>
+
+        <form action="/download-report" method="POST">
+
+            <input
+                type="hidden"
+                name="url"
+                value="{{ result.url }}"
+            >
+
+            <button type="submit" class="download-btn">
+                📄 Download PDF Report
+            </button>
+
+        </form>
+
+    </div>
+
+</main>
+
+<footer>
+    <p>© 2026 SecureCheck | Website Security Header Checker</p>
+</footer>
+
+</body>
+</html>

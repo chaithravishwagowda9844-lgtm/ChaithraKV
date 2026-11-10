@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Website Security Checker</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">🛡 SecureCheck</div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+    </nav>
+</header>
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="tag">WEBSITE SECURITY ANALYSIS</span>
+
+        <h1>
+            Protect Your Website With
+            <span>Security Header Checker</span>
+        </h1>
+
+        <p>
+            Analyze website security headers, identify missing
+            protections and improve your website security.
+        </p>
+
+        <form action="/scan" method="POST" class="scan-form">
+
+            <input
+                type="text"
+                name="url"
+                placeholder="Enter website URL (example.com)"
+                required
+            >
+
+            <button type="submit">
+                Scan Website →
+            </button>
+
+        </form>
+
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <div class="trust">
+            <span>✓ Easy to use</span>
+            <span>✓ Fast scanning</span>
+            <span>✓ PDF reports</span>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="features" id="features">
+
+    <h2>Our Security Features</h2>
+
+    <p class="section-description">
+        Everything you need to understand your website's
+        security header configuration.
+    </p>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+            <div class="feature-icon">🔍</div>
+            <h3>Header Detection</h3>
+            <p>Identify important security headers on websites.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Security Score</h3>
+            <p>Calculate a score based on detected security headers.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">⚠️</div>
+            <h3>Risk Detection</h3>
+            <p>Find missing security headers and understand potential risks.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📄</div>
+            <h3>PDF Reports</h3>
+            <p>Download a report containing scan results.</p>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="about" id="about">
+
+    <h2>About This Project</h2>
+
+    <p>
+        Website Security Header Checker is a web-based application
+        developed using Python Flask, HTML and CSS. It helps users
+        analyze HTTP security headers and provides recommendations
+        to improve website security.
+    </p>
+
+</section>
+
+<footer>
+    <p>© 2026 SecureCheck | Website Security Header Checker</p>
+    <p>Developed as an Internship Project</p>
+</footer>
+
+</body>
+</html>
