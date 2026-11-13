@@ -30,3 +30,4 @@ window.addEventListener("pageshow", function() {
     loadingMessage.hidden = true;
 
 });
+
